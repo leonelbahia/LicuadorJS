@@ -16,7 +16,7 @@ class Licuadora {
         } else {
             imgLicuadora = `<div id="Lic-${this.id}" class="licuadora"><div id="${this.id}-${this.nombre}-${this.yo}" class="licuadora-boton"></div></div>`;
         }
-        let licuadoras = `<div class = "licCSS">${imgLicuadora}<h3 class="titulo">${this.nombre}</h3><h3 class="titulo">${this.marca} - ${this.modelo}</h3><h3 class="titulo">${this.mensaje}</h3></div>`;
+        let licuadoras = `<div class = "licCSS">${imgLicuadora}<h3 class="titulo nombre">${this.nombre}</h3><h3 class="titulo">${this.marca} - ${this.modelo}</h3><h3 class="titulo mensaje">${this.mensaje}</h3></div>`;
          document.getElementById("contenedor").innerHTML +=licuadoras;
     }
 }
@@ -83,6 +83,8 @@ class MostrarHtml {
     }
 
     encenderApagar(key, from, to, toID){   
+        let sonidoBoton = document.querySelector ("#licuadora-boton-sonido");
+        sonidoBoton.play(); 
         const actualizarLicuadoras = async () => {   
             try { 
                 const consulta = await fetch(`https://mikao.ar/api/Licuadoras/?key=${key}&from=${from}&to=${to}&toID=${toID}`);
@@ -101,5 +103,14 @@ class MostrarHtml {
 let pantalla = new MostrarHtml; 
 pantalla.ingresarDatos();
 let peticion = pantalla.hacerPeticion();
-window.onclick = function(e) { let sonidoBoton = document.querySelector ("#licuadora-boton-sonido"); sonidoBoton.play(); var pizza = e.target.id; var porciones = pizza.split('-'); pantalla.encenderApagar('load', porciones[2], porciones[1], porciones[0]); };
+window.onclick = function(e) {  
+    if (e.target.className == 'licuadora-boton') {
+        var pizza = e.target.id; var porciones = pizza.split('-'); pantalla.encenderApagar('load', porciones[2], porciones[1], porciones[0]);
+     }    
+    
+};
 setInterval(function () {pantalla.hacerPeticion()}, 2000);
+
+window.addEventListener("beforeunload", function (e) {
+   console.log("Cerrado");
+  });
