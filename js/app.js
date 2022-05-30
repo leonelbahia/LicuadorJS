@@ -1,22 +1,30 @@
 class Licuadora {
-    constructor (id, nombre, marca, modelo, estado, mensaje, yo){
+    constructor (id, nombre, marca, modelo, estado, mensaje, yo, vida){
         this.id = id; //0
         this.nombre = nombre; //1
         this.marca = marca; //2
         this.modelo = modelo; //3
         this.estado = estado; //4
         this.mensaje = mensaje; //5
-        this.yo = yo; //5
+        this.yo = yo; //6
+        this.vida = vida; //7
     }
 
     mostrarInfo(){
         let imgLicuadora;
-        if (this.estado == "Encendida") {
-            imgLicuadora = `<div id="Lic-${this.id}" class="licuadora activa"><div id="${this.id}-${this.nombre}-${this.yo}" class="licuadora-boton"></div></div>`;
+        if (this.vida == "Murió") {
+            imgLicuadora = `<div id="Lic-${this.id}" class="licuadora murio"></div>`;
         } else {
-            imgLicuadora = `<div id="Lic-${this.id}" class="licuadora"><div id="${this.id}-${this.nombre}-${this.yo}" class="licuadora-boton"></div></div>`;
+            if (this.estado == "Encendida") {
+                imgLicuadora = `<div id="Lic-${this.id}" class="licuadora activa"><div id="${this.id}-${this.nombre}-${this.yo}" class="licuadora-boton"></div></div>`;
+            } else {
+                imgLicuadora = `<div id="Lic-${this.id}" class="licuadora"><div id="${this.id}-${this.nombre}-${this.yo}" class="licuadora-boton"></div></div>`;
+            }
         }
-        let licuadoras = `<div class = "licCSS">${imgLicuadora}<h3 class="titulo nombre">${this.nombre}</h3><h3 class="titulo">${this.marca} - ${this.modelo}</h3><h3 class="titulo mensaje">${this.mensaje}</h3></div>`;
+
+
+        let licuadoras = `<div class = "licCSS">${imgLicuadora}<h3 class="titulo nombre">${this.nombre}</h3><h3 class="titulo">${this.marca} - ${this.modelo}</h3>
+        <h3 class="titulo mensaje">${this.mensaje}</h3><h3 class="titulo vida">${this.vida}</h3></div>`;
          document.getElementById("contenedor").innerHTML +=licuadoras;
     }
 }
@@ -57,7 +65,7 @@ class MostrarHtml {
 
                     datos.respuesta.forEach(licuadora =>{
                         this.licuadorasInstanciadas[licuadora.id] = 
-                        [datos.yo, licuadora.id, licuadora.nombre, licuadora.marca, licuadora.modelo, licuadora.estado, licuadora.mensaje]; 
+                        [datos.yo, licuadora.id, licuadora.nombre, licuadora.marca, licuadora.modelo, licuadora.estado, licuadora.mensaje, licuadora.vida]; 
                     });
                         if (JSON.stringify(this.licuadorasLocales) === JSON.stringify(this.licuadorasInstanciadas)){
                             console.log("Sin cambios");
@@ -77,7 +85,7 @@ class MostrarHtml {
     crearContenedor(){
         document.getElementById('contenedor').innerHTML = '';
         this.licuadorasLocales.forEach (listita => { 
-            let licua = new Licuadora(listita[1], listita[2], listita[3], listita[4], listita[5], listita[6], this.sesionNombre);
+            let licua = new Licuadora(listita[1], listita[2], listita[3], listita[4], listita[5], listita[6], this.sesionNombre, listita[7]);
             licua.mostrarInfo();
         });
     }
