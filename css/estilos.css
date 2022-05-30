@@ -11,3 +11,4 @@ body {font-family: 'Montserrat', sans-serif; background: #e0e0e0; color: #1d1d1d
 .licuadora.activa{background-image: url(../img/licuadoraEncendida.gif);}
 .licuadora.murio{background-image: url(../img/licuadoraRota.jpg);}
 .licuadora-boton{position: absolute; top: 150px; left: 95px; width: 30px; height: 40px; cursor: pointer;}
+.sup {text-align: center; font-size: 2rem; margin-top: 20px; color: #333;}
